@@ -23,6 +23,13 @@
 	</bean>
 	
 	<bean id="circle" class="org.gillianbc.Circle">
-		<property name="centre" ref="origin"/>
+		<property name="centre" ref="origin" />
 	</bean>
+	<!-- Including this bean means that when the beans are initialised, Spring will check for any setters
+	that have the Required annotation and throw an error if that member variable is not set.  This prevents
+	beans being created with missing properties that may cause run time errors later e.g. a circle must
+	have a centre or it'll come back and bite you later e.g. in a draw() method! 
+	Comment out the centre above to see it in action.  You will get
+		 BeanInitializationException: Property 'centre' is required for bean 'circle' -->
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 </beans>
