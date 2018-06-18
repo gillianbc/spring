@@ -21,4 +21,8 @@
 		<property name="x" value="0" />
 		<property name="y" value="20" />
 	</bean>
+	
+	<bean id="circle" class="org.gillianbc.Circle">
+		<property name="centre" ref="origin"/>
+	</bean>
 </beans>
