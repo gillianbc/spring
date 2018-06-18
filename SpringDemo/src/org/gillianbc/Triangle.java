@@ -1,35 +1,30 @@
 package org.gillianbc;
 
 public class Triangle implements Shape{
-	private String triangleType;
-	private String triangleName;
-	private int height;
-	//I'm using different member variables so I can tell when it's using the setter
-	//and when it's using the constructor
-	public Triangle(String triangleName) {
-		this.triangleName = triangleName;
-		
+	private Point pointA;
+	private Point pointB;
+	private Point pointC;
+	public Point getPointA() {
+		return pointA;
 	}
-	public Triangle(int height) {
-		this.triangleName = "Just height";
-		this.height = height;
+	public void setPointA(Point pointA) {
+		this.pointA = pointA;
 	}
-	public Triangle(String triangleName, String triangleType) {
-		this.triangleName = triangleName;
-		this.triangleType = triangleType;
+	public Point getPointB() {
+		return pointB;
 	}
-	public Triangle() {
-		//it made me explicitly make this default constructor - dunno why
+	public void setPointB(Point pointB) {
+		this.pointB = pointB;
 	}
-	public String getTriangleType() {
-		return triangleType;
+	public Point getPointC() {
+		return pointC;
 	}
-
-	public void setTriangleType(String triangleType) {
-		this.triangleType = triangleType;
+	public void setPointC(Point pointC) {
+		this.pointC = pointC;
 	}
-
 	public void draw() {
-		System.out.println("Triangle drawn:" + triangleType + " name is " + triangleName + " height " + height);
+		System.out.println("Point A: (" + pointA.getX() + "," + pointA.getY() + ")");
+		System.out.println("Point B: (" + pointB.getX() + "," + pointB.getY() + ")");
+		System.out.println("Point C: (" + pointC.getX() + "," + pointC.getY() + ")");
 	}
 }

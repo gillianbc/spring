@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
 <beans>
-<!-- This is setter injection as the setter will be called to set the member variable-->
-<bean id="triangle" class="org.gillianbc.Triangle">
-	<property name="triangleType" value="Isosceles"></property>
-</bean>
-<!-- This is constructor injection as the constructor is called.  Spring will look for a
-constructor with a single argument -->
-<bean id="triangle2" class="org.gillianbc.Triangle">
- 	<constructor-arg value = "Fred"/>
- </bean>
- <!-- Spring will look for a constructor with 2 args -->
- <bean id="triangle3" class="org.gillianbc.Triangle">
- 	<constructor-arg value = "Fred"/>
- 	<constructor-arg value = "Scalene"/>
-</bean>
-<!-- values are always strings and Spring will know that "20" means an int of 20 where appropriate, 
-but in some cases you may have to give Spring a clue as to which constructor to use.  e.g. if you had
-2 single arg constructors; one of String and one of int then explicitly tell Spring the type like this:
-	<constructor-arg type="int" value="20"/>
-To make it call the String constructor, use the fully qualified class name e.g.
-	<constructor-arg type="java.lang.String" value="20"/>
-	 -->
-<bean id="triangle4" class="org.gillianbc.Triangle">
-	<constructor-arg type="int" value="10"/>
-</bean>
+	<bean id="triangle" class="org.gillianbc.Triangle">
+		<property name="pointA" ref="origin" />
+		<property name="pointB" ref="pointB" />
+		<property name="pointC" ref="pointC" />
+	</bean>
+	
+	<bean id="origin" class="org.gillianbc.Point">
+		<property name="x" value="0" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointB" class="org.gillianbc.Point">
+		<property name="x" value="20" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointC" class="org.gillianbc.Point">
+		<property name="x" value="0" />
+		<property name="y" value="20" />
+	</bean>
 </beans>
