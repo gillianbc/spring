@@ -1,6 +1,6 @@
 package org.gillianbc;
 
-public class Triangle {
+public class Triangle implements Shape{
 	private String triangleType;
 	private String triangleName;
 	private int height;
@@ -29,7 +29,6 @@ public class Triangle {
 		this.triangleType = triangleType;
 	}
 
-	
 	public void draw() {
 		System.out.println("Triangle drawn:" + triangleType + " name is " + triangleName + " height " + height);
 	}
