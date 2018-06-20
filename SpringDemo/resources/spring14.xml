@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans default-init-method="allBeansInit" default-destroy-method="">
+	<bean id="triangle" class="org.gillianbc.tut14.Triangle" init-method="beanInit" destroy-method="beanCleanUp">
+		<property name="pointA" ref="origin" />
+		<property name="pointB" ref="pointB" />
+		<property name="pointC" ref="pointC" />
+	</bean>
+	
+	<bean id="origin" class="org.gillianbc.tut14.Point">
+		<property name="x" value="0" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointB" class="org.gillianbc.tut14.Point">
+		<property name="x" value="20" />
+		<property name="y" value="0" />
+	</bean>
+	
+	<bean id="pointC" class="org.gillianbc.tut14.Point">
+		<property name="x" value="0" />
+		<property name="y" value="20" />
+	</bean>
+	
+	<!-- Including this bean means that when the beans are initialised, Spring will check for any setters
+	that have the Required annotation and throw an error if that member variable is not set.  This prevents
+	beans being created with missing properties that may cause run time errors later e.g. a circle must
+	have a centre or it'll come back and bite you later e.g. in a draw() method! 
+	Comment out the centre above to see it in action.  You will get
+		 BeanInitializationException: Property 'centre' is required for bean 'circle' -->
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+</beans>
