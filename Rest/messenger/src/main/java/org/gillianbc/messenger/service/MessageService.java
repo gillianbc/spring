@@ -31,6 +31,27 @@ public class MessageService {
 
 	}
 	
+	public List<Message> getAllMessagesForYear(int year){
+		Calendar cal = Calendar.getInstance();
+		List<Message> matchingMessages = new ArrayList<>();
+		for (Message message : messages.values()) {
+			cal.setTime(message.getCreated());
+			if (cal.get(Calendar.YEAR)==year) {
+				matchingMessages.add(message);
+			}
+		}
+		return matchingMessages;
+	}
+	
+	public List<Message> getAllMessagesPaginated(int start, int count){
+		ArrayList<Message> pageList = new ArrayList<>(messages.values());
+		if (start + count > pageList.size()) {
+			System.out.println("There aren't enough messages for this request");
+			return new ArrayList<Message>();
+		}
+		return pageList.subList(start, start + count);
+	}
+	
 	public Message addMessage(Message message) {
 		message.setCreated(Calendar.getInstance().getTime());
 		message.setId(messages.size() + 1);
