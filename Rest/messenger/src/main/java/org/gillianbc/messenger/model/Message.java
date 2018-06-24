@@ -13,7 +13,7 @@ public class Message {
 	private String author;
 	
 	public Message() {
-		//no arg constructor needed for JSON / XML (eventually)
+		//no arg constructor needed for JSON / XML conversion)
 	}
 	
 	public Message(long id, String message, String author) {

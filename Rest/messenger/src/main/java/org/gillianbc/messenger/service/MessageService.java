@@ -16,6 +16,7 @@ public class MessageService {
 		//constructor that seeds a couple of messages for us
 		//Not a good idea as everytime a message service is created,
 		//these will be restored.  This is really confusing if you've updated or deleted them
+		 * 
 		messages.put(1L, new Message(1L,"Default message 1", "Gillian"));
 		messages.put(2L, new Message(2L,"Default message 2", "Gillian"));
 		

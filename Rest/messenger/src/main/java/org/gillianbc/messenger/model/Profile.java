@@ -14,7 +14,7 @@ public class Profile {
 		return id;
 	}
 	public Profile() {
-		
+		//no arg constructor needed for JSON / XML conversion)
 	}
 	public void setId(long id) {
 		this.id = id;
