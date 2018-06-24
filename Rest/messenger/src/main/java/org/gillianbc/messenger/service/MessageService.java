@@ -16,6 +16,9 @@ public class MessageService {
 		messages.put(2L, new Message(2L,"Hello World 2", "Gillian"));
 		
 	}
+	public Message getMessage(Long messageId) {
+		return messages.get(messageId);
+	}
 	
 	public List<Message> getAllMessages() {
 		return new ArrayList<Message>(messages.values());
