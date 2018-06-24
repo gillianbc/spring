@@ -16,35 +16,31 @@ import org.gillianbc.messenger.model.Message;
 import org.gillianbc.messenger.service.MessageService;
 
 @Path("/messages")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
 	
 	MessageService messageService = new MessageService();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Message> getMessages() {
 		return messageService.getAllMessages();
 	}
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long someId) {
 		
 		return messageService.getMessage(someId);
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Message addMessage(Message message) {
 		messageService.addMessage(message);
 		return messageService.getLastMessage();
 	}
 	
 	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{messageId}")
 	public Message updateMessage(@PathParam("messageId") long someId, Message message) {
 		message.setId(someId);
@@ -52,7 +48,6 @@ public class MessageResource {
 	}
 	
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{messageId}")
 	public void deleteMessage(@PathParam("messageId") long someId) {
 		messageService.deleteMessage(someId);
