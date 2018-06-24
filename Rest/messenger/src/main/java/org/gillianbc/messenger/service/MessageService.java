@@ -2,21 +2,42 @@ package org.gillianbc.messenger.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.gillianbc.messenger.database.DatabaseClass;
 import org.gillianbc.messenger.model.Message;
 
 public class MessageService {
-
+	private Map<Long, Message> messages = DatabaseClass.getMessages();
+	
+	public MessageService() {
+		//constructor that seeds a couple of messages for us
+		messages.put(1L, new Message(1L,"Hello World 1", "Gillian"));
+		messages.put(2L, new Message(2L,"Hello World 2", "Gillian"));
+		
+	}
+	
 	public List<Message> getAllMessages() {
-		Message m1 = new Message(1L, "Hello 1", "Gillian");
-		Message m2 = new Message(2L, "Hello 2", "Gillian");
-		Message m3 = new Message(3L, "Hello 3", "Gillian");
-		List<Message> list = new ArrayList<>();
-		list.add(m1);
-		list.add(m2);
-		list.add(m3);
-		return list;
+		return new ArrayList<Message>(messages.values());
 
+	}
+	
+	public Message addMessage(Message message) {
+		message.setId(messages.size() + 1);
+		messages.put(message.getId(), message);
+		return message;
+	}
+	
+	public Message updateMessage(Message message) {
+		if (message.getId() <= 0) {
+			return null;
+		}
+		messages.put(message.getId(), message);
+		return message;
+	}
+	
+	public Message removeMessage(long id) {
+		return messages.remove(id);
 	}
 
 }
