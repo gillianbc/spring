@@ -1,5 +1,6 @@
 package org.gillianbc.messenger.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,7 +19,7 @@ public class Message {
 	public Message(long id, String message, String author) {
 		this.id = id;
 		this.message = message;
-		this.created = new Date();
+		this.created = Calendar.getInstance().getTime();
 		this.author = author;
 	}
 	public long getId() {

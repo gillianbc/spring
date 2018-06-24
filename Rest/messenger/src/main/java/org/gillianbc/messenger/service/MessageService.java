@@ -1,6 +1,7 @@
 package org.gillianbc.messenger.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class MessageService {
 	}
 	
 	public Message addMessage(Message message) {
+		message.setCreated(Calendar.getInstance().getTime());
 		message.setId(messages.size() + 1);
 		messages.put(message.getId(), message);
 		return message;
@@ -41,6 +43,10 @@ public class MessageService {
 	
 	public Message removeMessage(long id) {
 		return messages.remove(id);
+	}
+	public Message getLastMessage() {
+		
+		return getMessage((long) messages.size());
 	}
 
 }
