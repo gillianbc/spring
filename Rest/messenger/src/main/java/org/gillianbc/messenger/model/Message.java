@@ -2,8 +2,11 @@ package org.gillianbc.messenger.model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class Message {
 
@@ -11,7 +14,10 @@ public class Message {
 	private String message;
 	private Date created;
 	private String author;
+	private Map<Long, Comment> comments = new HashMap<>();
 	
+	
+
 	public Message() {
 		//no arg constructor needed for JSON / XML conversion)
 	}
@@ -45,6 +51,15 @@ public class Message {
 	}
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	
+	@XmlTransient  //ignore while converting XML/JSON
+	public Map<Long, Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Map<Long, Comment> comments) {
+		this.comments = comments;
 	}
 	
 }

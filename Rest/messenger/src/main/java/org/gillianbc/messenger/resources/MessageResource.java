@@ -1,5 +1,7 @@
 package org.gillianbc.messenger.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -11,13 +13,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.gillianbc.messenger.model.Message;
 import org.gillianbc.messenger.service.MessageService;
 
-@Path("/messages")
+@Path("/messages")  //class level path.  Method paths are appended to this
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
@@ -38,6 +43,7 @@ public class MessageResource {
 		return messageService.getAllMessages();
 	}
 
+	//e.g. http://localhost:8080/messenger/webapi/messages/1
 	@GET
 	@Path("/{messageId}")
 	public Message getMessage(@PathParam("messageId") long someId) {
@@ -45,12 +51,27 @@ public class MessageResource {
 		return messageService.getMessage(someId);
 	}
 
+	//http://localhost:8080/messenger/webapi/messages/
 	@POST
-	public Message addMessage(Message message) {
-		messageService.addMessage(message);
-		return messageService.getLastMessage();
+	public Response addMessage(Message message, @Context UriInfo uriInfo) {
+		Message newMessage = messageService.addMessage(message);
+		/* You can do this if you just want to send back 201 CREATED
+		 * 
+		 * return Response.status(Status.CREATED)
+			.entity(newMessage)
+			.build();*/
+		
+		/* This returns 201 plus the url of the new record */
+		String idString = String.valueOf(newMessage.getId());
+		
+		URI uri = uriInfo.getAbsolutePathBuilder()
+		.path(idString).build();
+			return Response.created(uri)
+					.entity(newMessage)
+					.build();
 	}
 
+	//e.g.http://localhost:8080/messenger/webapi/messages/1
 	@PUT
 	@Path("/{messageId}")
 	public Message updateMessage(@PathParam("messageId") long someId, Message message) {
@@ -58,6 +79,7 @@ public class MessageResource {
 		return messageService.updateMessage(message);
 	}
 
+	//e.g. http://localhost:8080/messenger/webapi/messages/1
 	@DELETE
 	@Path("/{messageId}")
 	public void deleteMessage(@PathParam("messageId") long someId) {

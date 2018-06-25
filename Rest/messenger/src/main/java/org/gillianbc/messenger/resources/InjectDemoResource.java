@@ -40,8 +40,7 @@ public class InjectDemoResource {
 	}
 
 	// Example endpoint - http://localhost:8080/messenger/webapi/injectdemo/frogface
-	// Postman shows the available cookies on a separate tab - not sure how they got
-	// there
+	// Postman shows the available cookies on a separate tab - you can make cookies with a Response
 	@GET
 	@Path("frogface")
 	public String getParamsUsingAnnotations(@CookieParam("JSESSIONID") String cookieParam) {
