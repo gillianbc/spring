@@ -63,5 +63,12 @@ public class MessageResource {
 	public void deleteMessage(@PathParam("messageId") long someId) {
 		messageService.deleteMessage(someId);
 	}
+	
+	//No @GET, @POST etc - we want this to fire for all HTTP methods on this endpoint
+	@Path("/{messageId}/{comments}")
+	public CommentResource getCommentResource() {
+		//pass control to the subresource
+		return new CommentResource();
+	}
 
 }
