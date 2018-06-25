@@ -2,6 +2,7 @@ package org.gillianbc.messenger.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,16 +25,16 @@ public class MessageResource {
 	MessageService messageService = new MessageService();
 
 	@GET
-	public List<Message> getMessages(@QueryParam("year") int year,
-			@QueryParam("start") int start,
-			@QueryParam("count") int count) {
-		//e.g. http://localhost:8080/messenger/webapi/messages?year=2018
-		if (year > 0)
-			return messageService.getAllMessagesForYear(year);
-		//e.g. http://localhost:8080/messenger/webapi/messages?start=2&count=3
-		if (start > 0 && count > 0) 
-			return messageService.getAllMessagesPaginated(start-1, count);
-		//e.g. http://localhost:8080/messenger/webapi/messages  (or anything else)
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+		// e.g. http://localhost:8080/messenger/webapi/messages?year=2018
+		if (filterBean.getYear() > 0) {
+			System.out.println(filterBean.getYear());
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		// e.g. http://localhost:8080/messenger/webapi/messages?start=2&count=3
+		if (filterBean.getStart() > 0 && filterBean.getCount() > 0)
+			return messageService.getAllMessagesPaginated(filterBean.getStart() - 1, filterBean.getCount());
+		// e.g. http://localhost:8080/messenger/webapi/messages (or anything else)
 		return messageService.getAllMessages();
 	}
 

@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -26,14 +27,16 @@ public class InjectDemoResource {
 	// http://localhost:8080/messenger/webapi/injectdemo/fish/crab
 	@GET
 	@Path("/{level1}/{level2}")
-	public String getParamsUsingContext(@Context UriInfo uriInfo) {
-		// uriInfo has loads of useful get methods
+	public String getParamsUsingContext(@Context UriInfo uriInfo,
+			                            @Context HttpHeaders headers) {
+		// uriInfo and httpheaders have loads of useful get methods
 		MultivaluedMap<String, String> map = uriInfo.getPathParameters();
 		System.out.println(map);
 		System.out.println(map.get("level1"));
+		
 		return "Method getParamsUsingContext ran using path " + uriInfo.getAbsolutePath() + "\n Level 1 "
 				+ map.get("level1") + "\n Level 2 "
-						+ map.get("level2");
+						+ map.get("level2") + "Cookies " + headers.getCookies().toString();
 	}
 
 	// Example endpoint - http://localhost:8080/messenger/webapi/injectdemo/frogface
