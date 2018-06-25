@@ -16,6 +16,8 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable>{
 		//This means any exception (other than those that have their own mappers), will get this 
 		//instead of the Apache Tomcat error page e.g. page not found error
 		//Need to add .type or it'll be XML - that wasn't in the tutorial
+		//The exception is not going through any class that has @Produces(MediaType.APPLICATION_JSON)
+		//like the DataNotFoundException thrown by the MessagesResource, so it defaults to XML
 		ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(),500,"www.ravelry.com");
 		return Response.status(Status.INTERNAL_SERVER_ERROR)
 				.type(MediaType.APPLICATION_JSON) 
