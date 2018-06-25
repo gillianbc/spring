@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gillianbc.messenger.database.DatabaseClass;
+import org.gillianbc.messenger.exception.DataNotFoundException;
 import org.gillianbc.messenger.model.Message;
 
 public class MessageService {
@@ -22,8 +23,12 @@ public class MessageService {
 		
 	}*/
 	public Message getMessage(Long messageId) {
-		showMessages("get");
-		return messages.get(messageId);
+//		showMessages("get");
+		Message message = messages.get(messageId);
+		if (message == null) {
+			throw new DataNotFoundException("Message with id " + messageId + " does not exist");
+		}
+		return message;
 	}
 	
 	public List<Message> getAllMessages() {

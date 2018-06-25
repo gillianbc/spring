@@ -63,7 +63,7 @@ public class MessageResource {
 		
 		/* This returns 201 plus the url of the new record */
 		String idString = String.valueOf(newMessage.getId());
-		
+		//This is how we append to the existing path
 		URI uri = uriInfo.getAbsolutePathBuilder()
 		.path(idString).build();
 			return Response.created(uri)
