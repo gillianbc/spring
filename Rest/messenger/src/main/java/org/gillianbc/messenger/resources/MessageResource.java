@@ -46,9 +46,18 @@ public class MessageResource {
 	//e.g. http://localhost:8080/messenger/webapi/messages/1
 	@GET
 	@Path("/{messageId}")
-	public Message getMessage(@PathParam("messageId") long someId) {
-
-		return messageService.getMessage(someId);
+	public Message getMessage(@PathParam("messageId") long someId,
+			@Context UriInfo uriInfo) {
+		Message message = messageService.getMessage(someId);
+		//Now use the context of this resource class and method to create appropriate links
+		if (message != null) {
+			URI uri = uriInfo.getBaseUriBuilder()
+			.path(MessageResource.class)
+			.path(Long.toString(message.getId()))
+			.build();
+			message.addLink(uri.toString(), "self");
+		}
+		return message;
 	}
 
 	//http://localhost:8080/messenger/webapi/messages/
