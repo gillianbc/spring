@@ -24,14 +24,30 @@ import org.gillianbc.messenger.service.MessageService;
 
 @Path("/messages")  //class level path.  Method paths are appended to this
 @Consumes(MediaType.APPLICATION_JSON)
-//JSON: header Accept application/json   XML:  header Accept text/xml
 @Produces(value = {MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+//JSON: header value Accept = application/json   XML:  header value Accept = text/xml
 public class MessageResource {
 
 	MessageService messageService = new MessageService();
 
 	@GET
-	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getMessagesJSON(@BeanParam MessageFilterBean filterBean) {
+		// e.g. http://localhost:8080/messenger/webapi/messages?year=2018
+		if (filterBean.getYear() > 0) {
+			System.out.println(filterBean.getYear());
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		// e.g. http://localhost:8080/messenger/webapi/messages?start=2&count=3
+		if (filterBean.getStart() > 0 && filterBean.getCount() > 0)
+			return messageService.getAllMessagesPaginated(filterBean.getStart() - 1, filterBean.getCount());
+		// e.g. http://localhost:8080/messenger/webapi/messages (or anything else)
+		return messageService.getAllMessages();
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Message> getMessagesXML(@BeanParam MessageFilterBean filterBean) {
 		// e.g. http://localhost:8080/messenger/webapi/messages?year=2018
 		if (filterBean.getYear() > 0) {
 			System.out.println(filterBean.getYear());
