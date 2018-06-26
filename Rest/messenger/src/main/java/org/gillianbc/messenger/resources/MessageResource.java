@@ -24,7 +24,8 @@ import org.gillianbc.messenger.service.MessageService;
 
 @Path("/messages")  //class level path.  Method paths are appended to this
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+//JSON: header Accept application/json   XML:  header Accept text/xml
+@Produces(value = {MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 public class MessageResource {
 
 	MessageService messageService = new MessageService();
