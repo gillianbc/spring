@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.gillianbc.messenger.database.DatabaseClass;
 import org.gillianbc.messenger.model.Comment;
+import org.gillianbc.messenger.model.ErrorMessage;
 import org.gillianbc.messenger.model.Message;
 
 public class CommentService {
@@ -20,16 +22,27 @@ public class CommentService {
 	}
 
 	public Comment getComment(long messageId, long commentId) {
+		/*
+		 * This approach is not recommended as it means a lot of error
+		 * handling logic within the business service.  The preferred approach
+		 * is to write a custom exception mapper like we did before for DataNotFoundException
+		 */
 		Message message = messages.get(messageId);
 		if (message == null) {
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new WebApplicationException(makeResponse());
 		}
 		Map<Long, Comment> comments = messages.get(messageId).getComments();
 		Comment comment = comments.get(commentId);
 		if (comment == null) {
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new WebApplicationException(makeResponse());
 		}
 		return comment;
+	}
+
+	private Response makeResponse() {
+		ErrorMessage errorMessage = new ErrorMessage("Not found", 404, "www.hhh.net");
+		Response response = Response.status(Status.NOT_FOUND).entity(errorMessage).build();
+		return response;
 	}
 
 	public Comment addComment(long messageId, Comment comment) {
