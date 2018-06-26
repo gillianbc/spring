@@ -8,7 +8,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.gillianbc.messenger.model.ErrorMessage;
 
-@Provider  //registers the class in JAX-RS - server restart required
+//@Provider  //disabled for now //registers the class in JAX-RS - server restart required
 public class GenericExceptionMapper implements ExceptionMapper<Throwable>{
 
 	@Override
