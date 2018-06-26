@@ -50,14 +50,42 @@ public class MessageResource {
 			@Context UriInfo uriInfo) {
 		Message message = messageService.getMessage(someId);
 		//Now use the context of this resource class and method to create appropriate links
-		if (message != null) {
-			URI uri = uriInfo.getBaseUriBuilder()
-			.path(MessageResource.class)
-			.path(Long.toString(message.getId()))
-			.build();
-			message.addLink(uri.toString(), "self");
+		//Check if links is empty - we don't want to keep adding same links on every GET
+		if (message != null && message.getLinks().isEmpty()) {
+			getUriForSelf(uriInfo, message);
+			getUriForAuthorProfile(uriInfo, message);
+			getUriForComments(uriInfo, message);
 		}
 		return message;
+	}
+
+	private void getUriForComments(UriInfo uriInfo, Message message) {
+		if (message.getComments() == null) 
+			return;
+		String uriStr = uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(MessageResource.class, "getCommentResource")
+				.resolveTemplate("messageId", message.getId())
+				.build().toString();
+		message.addLink(uriStr, "comments");
+	}
+
+	private void getUriForAuthorProfile(UriInfo uriInfo, Message message) {
+		if (message.getAuthor() == null) 
+			return;
+		String uriStr = uriInfo.getBaseUriBuilder()
+				.path(ProfileResource.class)
+				.path(message.getAuthor())
+				.build().toString();
+		message.addLink(uriStr, "author");
+	}
+
+	private void getUriForSelf(UriInfo uriInfo, Message message) {
+		String uriStr = uriInfo.getBaseUriBuilder()
+		.path(MessageResource.class)
+		.path(Long.toString(message.getId()))
+		.build().toString();
+		message.addLink(uriStr, "self");
 	}
 
 	//http://localhost:8080/messenger/webapi/messages/
@@ -96,7 +124,7 @@ public class MessageResource {
 	}
 	
 	//No @GET, @POST etc - we want this to fire for all HTTP methods on this endpoint
-	@Path("/{messageId}/{comments}")
+	@Path("/{messageId}/comments")
 	public CommentResource getCommentResource() {
 		//pass control to the subresource
 		return new CommentResource();
