@@ -1,3 +1,4 @@
+package org.gillianbc.messenger.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
